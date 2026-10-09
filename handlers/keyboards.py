@@ -1,17 +1,14 @@
-from aiogram.types import (
-    ReplyKeyboardMarkup,
-    KeyboardButton,
-    InlineKeyboardMarkup,
-    InlineKeyboardButton
-)
+from aiogram.types import (ReplyKeyboardMarkup,
+                           KeyboardButton,
+                           InlineKeyboardMarkup,
+                           InlineKeyboardButton)
 
-reply_keyboard  = ReplyKeyboardMarkup(
+
+reply_keyboard = ReplyKeyboardMarkup(
     keyboard=[
     [KeyboardButton(text="Каталог")],
     [KeyboardButton(text="Корзина"), KeyboardButton(text="Контакты")]
-]
-
-)
+])
 
 inline_keyboard = InlineKeyboardMarkup(
     inline_keyboard=[

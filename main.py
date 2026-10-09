@@ -1,15 +1,24 @@
 import asyncio
-from aiogram import Bot, Dispatcher
 import logging
-from src.handlers import router
-from config import BOT_TOKEN
+from handlers import commands, echo, fsm
+from config import bot, dp
 
-bot = Bot(token=BOT_TOKEN)
-dp = Dispatcher()
+
 
 async def main():
-    dp.include_router(router)
+    # регистрация обработчиков
+    dp.include_router(commands.router_commands)
+
+    dp.include_router(fsm.router_add_movie)
+
+    
+
+    # Обработчик на ВСЁ 
+    dp.include_router(echo.router_echo)
+
     await dp.start_polling(bot)
+
+
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
