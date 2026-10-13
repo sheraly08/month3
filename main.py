@@ -2,10 +2,16 @@ import asyncio
 import logging
 from handlers import commands, echo, fsm
 from config import bot, dp
+from database.db import create_table
 
 
 
 async def main():
+    def on_startup():
+        create_table()
+
+    on_startup()
+
     # регистрация обработчиков
     dp.include_router(commands.router_commands)
 

@@ -3,6 +3,7 @@ from aiogram.types import Message
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
+from database import db
 
 
 class Add_movie(StatesGroup):
@@ -46,4 +47,8 @@ async def add_rating(message: Message, state: FSMContext):
                          f"Название - {data['name']}\n"
                          f"Жанр - {data['genre']}\n"
                          f"Рейтинг - {data['rating']}")
+
+    db.add_movie_db(name=data['name'], genre=data['genre'], rating=data['rating'])
+
+    
     await state.clear()

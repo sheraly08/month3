@@ -11,7 +11,8 @@ router_commands = Router()
 @router_commands.message(CommandStart())
 async def cmd_start(message: Message):
     await message.answer(
-        f"Привет, {message.from_user.full_name}, я твой первый бот!",
+        f"Привет, {message.from_user.full_name}, я твой первый бот!"
+        f'нажмите на /help',
         reply_markup=reply_keyboard
     )
 
@@ -22,7 +23,8 @@ async def cmd_start(message: Message):
 async def cmd_help(message: Message):
     await message.answer(
         f"/start - привествие\n"
-        "/help - список команд",
+        "/help - список команд"
+        "/form - анкета" ,
         reply_markup=inline_keyboard
     )
 
