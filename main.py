@@ -1,29 +1,21 @@
 import asyncio
 import logging
-from handlers import commands, echo, fsm
+from handlers import commands, echo, fsm_add_product
 from config import bot, dp
-from database.db import create_table
-
+from database import db 
 
 
 async def main():
-    def on_startup():
-        create_table()
-
-    on_startup()
-
+    await db.init_db()
     # регистрация обработчиков
     dp.include_router(commands.router_commands)
-
-    dp.include_router(fsm.router_add_movie)
-
+    dp.include_router(fsm_add_product.router_add_product)
     
 
     # Обработчик на ВСЁ 
     dp.include_router(echo.router_echo)
 
     await dp.start_polling(bot)
-
 
 
 if __name__ == "__main__":

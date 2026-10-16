@@ -5,23 +5,35 @@ products_table = """
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL, 
         price INTEGER,
-        description TEXT,
-        photo TEXT
+        photo TEXT,
+        product_id INTEGER NOT NULL UNIQUE
     )
 """
 
-insert_product = "INSERT INTO products (name, price, description, photo) VALUES (?, ?, ?, ?)" 
+
+insert_product = "INSERT INTO products (name, price, photo, product_id) VALUES (?, ?, ?, ?)"
 
 
-movies_table = """
-CREATE TABLE IF NOT EXISTS movies (
-id INTEGER PRIMARY KEY AUTOINCREMENT,
-name TEXT NOT NULL,
-genre TEXT NOT NULL,
-rating INTEGER NOT NULL
 
-)
-
+products_detail_table = """
+    CREATE TABLE IF NOT EXISTS products_detail (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        category TEXT,
+        color TEXT,
+        product_id INTEGER NOT NULL UNIQUE,
+        description TEXT
+    )
 """
 
-insert_movie = "INSERT INTO movies (name, genre, rating) VALUES (?, ?, ?)"
+insert_product_detail = "INSERT INTO products_detail (category, color, product_id, description) VALUES (?, ?, ?, ?)" 
+
+# products.product_id = products_detail.product_id 
+
+select_product_id = "SELECT 1 FROM products WHERE product_id = ?"
+
+
+get_products = """
+SELECT p.name, p.photo, p.price, p.product_id, pd.category, pd.color, pd.description
+FROM products p
+INNER JOIN products_detail pd on p.product_id = pd.product_id
+""" 
