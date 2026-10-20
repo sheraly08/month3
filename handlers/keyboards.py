@@ -4,23 +4,43 @@ from aiogram.types import (ReplyKeyboardMarkup,
                            InlineKeyboardButton)
 
 
-reply_keyboard = ReplyKeyboardMarkup(
-    keyboard=[
+reply_keyboard = ReplyKeyboardMarkup(keyboard=[
     [KeyboardButton(text="Каталог")],
     [KeyboardButton(text="Корзина"), KeyboardButton(text="Контакты")]
 ])
 
-inline_keyboard = InlineKeyboardMarkup(
-    inline_keyboard=[
-    [InlineKeyboardButton(text="Наш сайт", url="https://youtube.com")],
-    [InlineKeyboardButton(text="Наша страница в инсте", url="https://instagram.com")],
+inline_keyboard = InlineKeyboardMarkup(inline_keyboard=[
+    [InlineKeyboardButton(text="Наш сайт", url="https://geeks.kg")],
     [InlineKeyboardButton(text="Начать игру", callback_data="quiz_start")]
 ])
 
-inline_keyboard1 = InlineKeyboardMarkup(
+# Редактировать = edit:101
+
+def product_actions(product_id):
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [InlineKeyboardButton(text='✏️ Редактировать', callback_data=f'edit:{product_id}'),
+             InlineKeyboardButton(text="Удалить", callback_data=f'delete:{product_id}')]
+        ]
+    )
+
+def confirm_delete(product_id):
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [InlineKeyboardButton(text='✅ Да, удалить', callback_data=f'delete_yes:{product_id}'),
+             InlineKeyboardButton(text='❌ Отмена', callback_data=f'delete_no:{product_id}')]
+        ]
+    )
+
+
+edit_fields = InlineKeyboardMarkup(
     inline_keyboard=[
-    [InlineKeyboardButton(text="1.Блок кода, выполняющий определённую задачу", callback_data="1")],
-    [InlineKeyboardButton(text="2.Переменная для хранения числа", callback_data="2")],
-    [InlineKeyboardButton(text="3.Файл с кодом", callback_data="3")]
+        [InlineKeyboardButton(text='Название', callback_data='field_name'), 
+         InlineKeyboardButton(text='Цена', callback_data='field_price'), 
+         InlineKeyboardButton(text='Описание', callback_data='field_description'),
+         InlineKeyboardButton(text='Категория', callback_data='field_category'),
+         InlineKeyboardButton(text="Цвет", callback_data='field_color')
+         ]
     ]
 )
+

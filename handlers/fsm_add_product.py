@@ -47,12 +47,7 @@ async def add_description(message: Message, state: FSMContext):
 
 @router_add_product.message(Add_product.photo)
 async def add_photo(message: Message, state: FSMContext):
-    if not message.photo:
-        await message.answer("Пожалуйста, отправьте фотографию товара.")
-        return
-
     await state.update_data(photo=message.photo[-1].file_id)
-    
     await message.answer('Напишите категорию товара:')
     await state.set_state(Add_product.category)
 

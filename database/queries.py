@@ -36,4 +36,27 @@ get_products = """
 SELECT p.name, p.photo, p.price, p.product_id, pd.category, pd.color, pd.description
 FROM products p
 INNER JOIN products_detail pd on p.product_id = pd.product_id
-""" 
+"""
+
+
+update_product = 'UPDATE {table} SET {field} = ? WHERE product_id = ?'
+
+
+create_staff_table = """
+    CREATE TABLE IF NOT EXISTS staff (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL UNIQUE,
+        full_name TEXT,
+        added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+"""
+
+check_staff = 'SELECT 1 FROM staff WHERE user_id = ?'
+
+insert_staff = "INSERT INTO staff (user_id, full_name) VALUES (?, ?)"
+
+get_staff_list = 'SELECT user_id, full_name FROM staff'
+
+
+delete_product = 'DELETE FROM {table} WHERE product_id = ?'
+
