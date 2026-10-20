@@ -4,7 +4,7 @@ from aiogram import F, Router
 
 from handlers.keyboards import reply_keyboard, inline_keyboard, product_actions
 
-from database import db
+from database import main_db
 
 router_commands = Router()
 
@@ -50,9 +50,9 @@ async def sticker_handler(message: Message):
 
 @router_commands.message(Command('products'))
 async def get_products(message: Message):
-    products = await db.get_products_db()
+    products = await main_db.get_products_db()
 
-    staff = await db.get_staff_list()
+    staff = await main_db.get_staff_list()
     staff_ids = [user_id for user_id, full_name in staff]
 
     if not products:
@@ -75,7 +75,7 @@ async def get_products(message: Message):
 
 @router_commands.message(Command('staff_list'))
 async def get_staff_list(message: Message):
-    staff = await db.get_staff_list()
+    staff = await main_db.get_staff_list()
     staff_ids = [user_id for user_id, full_name in staff]
 
     if message.from_user.id in staff_ids:

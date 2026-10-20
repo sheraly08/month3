@@ -3,7 +3,7 @@ from aiogram.types import Message
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
-from database import db
+from database import main_db
 
 
 class Add_product(StatesGroup):
@@ -72,7 +72,7 @@ async def add_product_id(message: Message, state: FSMContext):
         await message.answer('Артикул должен быть числом. Введите еще раз!')
         return
 
-    if await db.product_exists(product_id=message.text):
+    if await main_db.product_exists(product_id=message.text):
         await message.answer("Товар с таким артикулом уже есть в базе! Введите другой:")
         return
 
@@ -84,6 +84,6 @@ async def add_product_id(message: Message, state: FSMContext):
                                caption=f"Данные товара: \nНазвание - {data['name']} "
                                f"\nЦена - {data['price']} \nОписание - {data['description']} \nКатегория - {data['category']} \nЦвет - {data['color']} \nАртикул - {data['product_id']}")
 
-    await db.add_product_db(name=data['name'], price=data['price'], description=data['description'], photo=data['photo'], category=data['category'], color=data['color'], product_id=data['product_id'])
+    await main_db.add_product_db(name=data['name'], price=data['price'], description=data['description'], photo=data['photo'], category=data['category'], color=data['color'], product_id=data['product_id'])
 
     await state.clear()

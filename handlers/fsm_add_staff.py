@@ -3,7 +3,7 @@ from aiogram.types import Message, CallbackQuery
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
-from database import db
+from database import main_db
 from handlers import keyboards
 
 router_add_staff = Router()
@@ -17,7 +17,7 @@ class RegisterStaff(StatesGroup):
 @router_add_staff.message(Command('register_staff'))
 async def register_start(message: Message, state: FSMContext):
     user_id = message.from_user.id
-    if await db.is_staff_db(user_id=user_id):
+    if await main_db.is_staff_db(user_id=user_id):
         await message.answer('Вы уже есть в бд!')
         return
     else:
@@ -29,7 +29,7 @@ async def register_start(message: Message, state: FSMContext):
 async def register_check(message: Message, state: FSMContext):
     if message.text.strip() == staff_code:
 
-        await db.add_staff_db(user_id=message.from_user.id, 
+        await main_db.add_staff_db(user_id=message.from_user.id, 
                               full_name=message.from_user.full_name)
         
         await message.answer("Готово! Теперь доступны взаимодействие с продуктом. ")

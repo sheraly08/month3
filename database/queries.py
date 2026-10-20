@@ -60,3 +60,37 @@ get_staff_list = 'SELECT user_id, full_name FROM staff'
 
 delete_product = 'DELETE FROM {table} WHERE product_id = ?'
 
+
+
+# ===================== ДЗ: фильмы (своя база movie.db) =====================
+
+# 1-я таблица: основное о фильме
+movies_table = """
+    CREATE TABLE IF NOT EXISTS movies (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        rating INTEGER NOT NULL
+    )
+"""
+
+# 2-я таблица: подробности, связаны с movies через movie_id
+movies_detail_table = """
+    CREATE TABLE IF NOT EXISTS movies_detail (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        movie_id INTEGER NOT NULL UNIQUE,
+        genre TEXT NOT NULL,
+        year INTEGER,
+        description TEXT
+    )
+"""
+
+insert_movie = "INSERT INTO movies (name, rating) VALUES (?, ?)"
+
+insert_movie_detail = "INSERT INTO movies_detail (movie_id, genre, year, description) VALUES (?, ?, ?, ?)"
+
+# movies.id = movies_detail.movie_id
+get_movies = """
+SELECT m.id, m.name, m.rating, md.genre, md.year, md.description
+FROM movies m
+INNER JOIN movies_detail md ON m.id = md.movie_id
+"""

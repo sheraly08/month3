@@ -1,7 +1,7 @@
 # функции для связи с бд
 import aiosqlite
 from database import queries
-from config import path_db
+from config import path_db, path_movie_db
 
 
 async def init_db():
@@ -74,8 +74,32 @@ async def delete_product_db(product_id):
             cursor = await conn.execute(query, (product_id,))
             deleted += cursor.rowcount
         await conn.commit()
-    return deleted > 0   
-        
+    return deleted > 0
+
+
+# ===================== ДЗ: фильмы (своя база movie.db) =====================
+
+async def init_movie_db():
+    async with aiosqlite.connect(path_movie_db) as conn:
+        await conn.execute(queries.movies_table)
+        await conn.execute(queries.movies_detail_table)
+        await conn.commit()
+    print('База фильмов подключена!')
+
+
+async def add_movie_db(name, genre, rating, year, description):
+    async with aiosqlite.connect(path_movie_db) as conn:
+        cursor = await conn.execute(queries.insert_movie, (name, rating))
+        movie_id = cursor.lastrowid   # id только что добавленного фильма
+        await conn.execute(queries.insert_movie_detail, (movie_id, genre, year, description))
+        await conn.commit()
+
+
+async def get_movies_db():
+    async with aiosqlite.connect(path_movie_db) as conn:
+        cursor = await conn.execute(queries.get_movies)
+        movies = await cursor.fetchall()
+    return movies
 
 
 # =====================================================================================

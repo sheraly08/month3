@@ -7,4 +7,5 @@ bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher() 
 
 
-path_db = "database/bot.db"
+path_db = "database/bot.db" 
+path_movie_db = "database/movie.db"

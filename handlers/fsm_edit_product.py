@@ -3,7 +3,7 @@ from aiogram.types import Message, CallbackQuery
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
-from database import db
+from database import main_db
 from handlers import keyboards
 
 router_edit = Router()
@@ -21,7 +21,7 @@ async def edit_start(call: CallbackQuery, state: FSMContext):
 
 
 
-    staff = await db.get_staff_list()
+    staff = await main_db.get_staff_list()
     staff_ids = [user_id for user_id, full_name in staff]
     if call.from_user.id not in staff_ids:
         await call.message.answer('У вас нет доступа к этой команде!')
@@ -58,7 +58,7 @@ async def edit_save(message: Message, state: FSMContext):
         return
     
     else:
-        await db.update_product(field=data['field'], value=message.text, product_id=data['product_id'])
+        await main_db.update_product(field=data['field'], value=message.text, product_id=data['product_id'])
         await message.answer('Товар обновлен!')
         await state.clear()
         

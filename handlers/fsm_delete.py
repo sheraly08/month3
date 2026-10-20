@@ -1,6 +1,6 @@
 from aiogram import Router, F
 from aiogram.types import CallbackQuery
-from database import db
+from database import main_db
 from handlers import keyboards
 
 
@@ -9,7 +9,7 @@ router_delete = Router()
 
 @router_delete.callback_query(F.data.startswith('delete:'))
 async def delete_start(call: CallbackQuery):
-    if not await db.is_staff_db(user_id=call.from_user.id):
+    if not await main_db.is_staff_db(user_id=call.from_user.id):
         await call.answer('У вас нет доступа к этой команде!', show_alert=True)
         return
 
@@ -20,12 +20,12 @@ async def delete_start(call: CallbackQuery):
 
 @router_delete.callback_query(F.data.startswith('delete_yes:'))
 async def delete_confirm(call: CallbackQuery):
-    if not await db.is_staff_db(user_id=call.from_user.id):
+    if not await main_db.is_staff_db(user_id=call.from_user.id):
         await call.answer('У вас нет доступа к этой команде!', show_alert=True)
         return
 
     product_id = call.data.split(':')[1]
-    if await db.delete_product_db(product_id=product_id):
+    if await main_db.delete_product_db(product_id=product_id):
         await call.message.delete()
         await call.answer(f'Товар {product_id} удалён!', show_alert=True)
     else:
