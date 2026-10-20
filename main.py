@@ -5,9 +5,13 @@ from config import bot, dp
 from database import main_db
 
 
+# Вызывается один раз при старте бота
+async def on_startup():
+    await main_db.create_table()
+
+
 async def main():
     await main_db.init_db()
-    await main_db.init_movie_db()
     # регистрация обработчиков
     dp.include_router(commands.router_commands)
     dp.include_router(fsm_add_product.router_add_product)
@@ -19,6 +23,8 @@ async def main():
 
     # Обработчик на ВСЁ 
     dp.include_router(echo.router_echo)
+
+    dp.startup.register(on_startup)
 
     await dp.start_polling(bot)
 

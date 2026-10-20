@@ -79,7 +79,7 @@ async def delete_product_db(product_id):
 
 # ===================== ДЗ: фильмы (своя база movie.db) =====================
 
-async def init_movie_db():
+async def create_table():
     async with aiosqlite.connect(path_movie_db) as conn:
         await conn.execute(queries.movies_table)
         await conn.execute(queries.movies_detail_table)
